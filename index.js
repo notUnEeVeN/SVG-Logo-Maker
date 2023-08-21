@@ -4,11 +4,14 @@ const inquirer = require("inquirer");
 const { Circle, Triangle, Square } = require("./lib/shapes");
 
 function main() {
+  //this is using the inquirer package to add interactivity to the terminal
   const questions = [
     {
+      //input questions take strings as answers
       type: "input",
       name: "text",
       message: "Enter up to three characters for logo text:",
+      //checking to make sure the user doesn't input any string larger than 3 
       validate: function (value) {
         if (value.length <= 3) {
             return true;
@@ -22,6 +25,7 @@ function main() {
       message: "Enter text color (keyword or hexadecimal):",
     },
     {
+      //list type questions allow the user to select their answer from a list with the arrow and enter keys
       type: "list",
       name: "shape",
       message: "Choose a shape:",
@@ -36,6 +40,7 @@ function main() {
 
   inquirer
     .prompt(questions)
+    //using the .then property to wait for the users answers, THEN execute the corresponding class extension in the shapes.js page
     .then((answers) => {
       let shapeObj;
       switch (answers.shape) {
@@ -58,7 +63,7 @@ function main() {
         fontSize = 45;
         textYPosition = 140;
       }
-
+      //here we build the svg file with the information that will remain constant regardless of the color/shape, and everything that depends on user input is filled in by the methods
       const svgContent = `
 <svg version="1.1" width="300" height="200" xmlns="http://www.w3.org/2000/svg">
   ${shapeObj.render()}
@@ -69,7 +74,7 @@ function main() {
   </text>
 </svg>
 `;
-
+//using fs to write the file based on our svgContent data
       fs.writeFileSync("logo.svg", svgContent);
       console.log("Generated logo.svg");
     })
