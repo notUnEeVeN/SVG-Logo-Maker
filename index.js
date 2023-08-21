@@ -9,6 +9,12 @@ function main() {
       type: "input",
       name: "text",
       message: "Enter up to three characters for logo text:",
+      validate: function (value) {
+        if (value.length <= 3) {
+            return true;
+        }
+        return 'Please enter up to three characters only!';
+    }
     },
     {
       type: "input",
